@@ -11,14 +11,10 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Bitlet.Infrastructure.Messaging\Bitlet.Infrastructure.Messaging.csproj"/>
-
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10"/>
-        <PackageReference Include="Microsoft.AspNetCore.HealthChecks" Version="1.0.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.10"/>  
+        
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0"/>
 
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10"/>  
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10"/>
 
         <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.10"/>
@@ -27,27 +23,10 @@
         <PackageReference Include="Polly" Version="8.6.1" />
         <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
 
-        <PackageReference Include="Roslynator.Analyzers" Version="4.14.1">
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-          <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-
         <PackageReference Include="Libuv" Version="*" ExcludeAssets="All" />
-    </ItemGroup>
-	<ItemGroup>
-		<Compile Remove="Tests\**" />
-		<EmbeddedResource Remove="Tests\**" />
-		<None Remove="Tests\**" />
-	</ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Tests\obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="Tests\obj\project.packagespec.json" />
-      <_ContentIncludedByDefault Remove="Tests\obj\Test.csproj.nuget.dgspec.json" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Migrations\" />
     </ItemGroup>
-
 </Project>
