@@ -18,7 +18,7 @@ var connectionString = $"server={Environment.GetEnvironmentVariable("DATABASE_HO
                        $"{Environment.GetEnvironmentVariable("DATABASE_PORT") ?? "1434"};" +
                        $"user id={Environment.GetEnvironmentVariable("DATABASE_USERNAME") ?? "sa"};" +
                        $"password={Environment.GetEnvironmentVariable("DATABASE_PASSWORD") ?? "database_password"};" +
-                       $"database={Environment.GetEnvironmentVariable("DATABASE_NAME") ?? "Example"};" +
+                       $"database={Environment.GetEnvironmentVariable("DATABASE_NAME") ?? "ExampleAPI"};" +
                        "trustServerCertificate=true;";
 
 builder.Services.AddDbContext<ExampleDbContext>(options => options.UseSqlServer(connectionString));

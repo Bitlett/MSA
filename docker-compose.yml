@@ -66,3 +66,23 @@ services:
       - RabbitMQ__Username=${RABBITMQ_USERNAME}
       - RabbitMQ__Password=${RABBITMQ_PASSWORD}
       - ASPNETCORE_ENVIRONMENT=Development
+
+  example-service:
+    image: bitlet/example-service:1.0
+    build:
+      context: .
+      dockerfile: ./Bitlet.ExampleService/Dockerfile
+    depends_on:
+      rabbitmq-server:
+        condition: service_healthy
+      sql-server:
+        condition: service_healthy
+    networks:
+      - msa-network
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - RabbitMQ__Username=${RABBITMQ_USERNAME}
+      - RabbitMQ__Password=${RABBITMQ_PASSWORD}
