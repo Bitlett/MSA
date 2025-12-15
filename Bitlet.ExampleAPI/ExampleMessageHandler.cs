@@ -13,7 +13,7 @@ public class ExampleMessageHandler(IServiceScopeFactory scopeFactory) : IMessage
     [MessageHandler]
     public async Task<bool> Handle(ExampleModelCreated e)
     {
-        // Create TransferDbContext instance
+        // Create ExampleDbContext instance
         using IServiceScope dbScope = scopeFactory.CreateScope();
         ExampleDbContext? dbContext = dbScope.ServiceProvider.GetService<ExampleDbContext>();
         if (dbContext == null)
