@@ -1,9 +1,15 @@
+volumes:
+  sql-server-data:
+  rabbitmq-server-data:
+
 networks:
   msa-network:
 
 services:
   rabbitmq-server:
     image: rabbitmq:3-management
+    volumes:
+      - rabbitmq-server-data:/var/lib/rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
@@ -18,3 +24,45 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
+  
+  sql-server:
+    image: mcr.microsoft.com/azure-sql-edge
+    volumes:
+      - sql-server-data:/var/opt/mssql
+    ports:
+      - 1434:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+      - MSSQL_SA_PASSWORD=${DATABASE_PASSWORD}
+    networks:
+      - msa-network
+    healthcheck:
+      test: [ "CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"$DATABASE_PASSWORD\" -Q 'SELECT 1' || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+
+  example-api:
+    image: bitlet/example-api:1.0
+    build:
+      context: .
+      dockerfile: ./Bitlet.ExampleAPI/Dockerfile
+    depends_on:
+      rabbitmq-server:
+        condition: service_healthy
+      sql-server:
+        condition: service_healthy
+    ports:
+      - 8081:8080
+    networks:
+      - msa-network
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - RabbitMQ__Username=${RABBITMQ_USERNAME}
+      - RabbitMQ__Password=${RABBITMQ_PASSWORD}
+      - ASPNETCORE_ENVIRONMENT=Development
